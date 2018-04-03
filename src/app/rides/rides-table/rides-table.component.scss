@@ -1,4 +1,4 @@
-.example-container {
+.table-container {
     margin-top: 2em;
     display: flex;
     flex-direction: column;
@@ -6,7 +6,17 @@
 }
   
 .mat-table {
-    padding: 2em;
+    padding: 0 5em;
     overflow: auto;
     max-height: 500px;
+}
+
+mat-paginator {
+    margin: 0 auto;
+}
+
+button[mat-fab] {
+    position: fixed;
+    bottom: 23px;
+    left: 23px;
 }

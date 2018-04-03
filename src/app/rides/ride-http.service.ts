@@ -18,4 +18,8 @@ export class RideHttpService {
     }
     return this.httpClient.get<ICollection<Ride>>('http://localhost:3000/ride', { responseType: 'json', observe: 'body', params });
   }
+
+  createRide(ride: Ride) {
+    return this.httpClient.post<Ride>('http://localhost:3000/ride', ride);
+  }
 }

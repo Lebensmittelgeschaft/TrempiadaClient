@@ -12,7 +12,7 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://www.google.com/design/spec/style/color.html
 $candy-app-primary: mat-palette($mat-indigo);
-$candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+$candy-app-accent:  mat-palette($mat-indigo, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $candy-app-warn:    mat-palette($mat-red);
@@ -28,4 +28,17 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 body {
     direction: rtl;
     margin: 0;
+}
+
+.mat-paginator-range-actions {
+    // TODO: Flip the svg instead of the order of the elements.
+    flex-direction: row-reverse;
+}
+
+.mat-paginator-range-label {
+    order: 1;
+}
+
+.mat-sort-header-container {
+    float: right;
 }

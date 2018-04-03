@@ -1,43 +1,49 @@
-<div class="example-container mat-elevation-z8">
-  <mat-table #table [dataSource]="dataSource">
+<div class="table-container mat-elevation-z8">
+  <mat-table 
+    #table 
+    [dataSource]="dataSource"
+    matSort>
 
     <!-- Driver Column -->
-    <ng-container matColumnDef="{{ displayedColumns[0] }}">
-      <mat-header-cell *matHeaderCellDef> {{ displayedColumns[0] }} </mat-header-cell>
+    <ng-container matColumnDef="{{ columnDefs[0] }}">
+      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before"> {{ displayedColumns[0] }} </mat-header-cell>
       <mat-cell *matCellDef="let ride"> {{ ride.driver.firstname + ' ' + ride.driver.lastname }} </mat-cell>
     </ng-container>
 
     <!-- Source Column -->
-    <ng-container matColumnDef="{{ displayedColumns[1] }}">
-      <mat-header-cell *matHeaderCellDef> {{ displayedColumns[1] }} </mat-header-cell>
+    <ng-container matColumnDef="{{ columnDefs[1] }}">
+      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before"> {{ displayedColumns[1] }} </mat-header-cell>
       <mat-cell *matCellDef="let ride"> {{ride.from}} </mat-cell>
     </ng-container>
 
     <!-- Destination Column -->
-    <ng-container matColumnDef="{{ displayedColumns[2] }}">
-      <mat-header-cell *matHeaderCellDef> {{ displayedColumns[2] }} </mat-header-cell>
+    <ng-container matColumnDef="{{ columnDefs[2] }}">
+      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before"> {{ displayedColumns[2] }} </mat-header-cell>
       <mat-cell *matCellDef="let ride"> {{ride.to}} </mat-cell>
     </ng-container>
 
     <!-- Departure Column -->
-    <ng-container matColumnDef="{{ displayedColumns[3] }}">
-      <mat-header-cell *matHeaderCellDef> {{ displayedColumns[3] }} </mat-header-cell>
+    <ng-container matColumnDef="{{ columnDefs[3] }}">
+      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before"> {{ displayedColumns[3] }} </mat-header-cell>
       <mat-cell *matCellDef="let ride"> {{ ride.departureDate | date:'d/M/yy, H:mm' }} </mat-cell>
     </ng-container>
 
     <!-- Free spots Column -->
-    <ng-container matColumnDef="{{ displayedColumns[4] }}">
-      <mat-header-cell *matHeaderCellDef> {{ displayedColumns[4] }} </mat-header-cell>
+    <ng-container matColumnDef="{{ columnDefs[4] }}">
+      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before"> {{ displayedColumns[4] }} </mat-header-cell>
       <mat-cell *matCellDef="let ride"> {{ ride.maxRiders - ride.riders.length }} </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-header-row *matHeaderRowDef="columnDefs"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnDefs;"></mat-row>
   </mat-table>
 
   <mat-paginator #paginator
                  [pageSize]="10"
                  [pageSizeOptions]="[5, 10, 20]"
-                 [showFirstLastButtons]="true">
+                 [showFirstLastButtons]="true"
+                 >
   </mat-paginator>
 </div>
+
+<button mat-fab><img src="../../../assets/ic_add_white_24px.svg"></button>
