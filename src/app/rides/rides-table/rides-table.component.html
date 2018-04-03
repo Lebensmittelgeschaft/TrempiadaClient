@@ -1,0 +1,43 @@
+<div class="example-container mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource">
+
+    <!-- Driver Column -->
+    <ng-container matColumnDef="{{ displayedColumns[0] }}">
+      <mat-header-cell *matHeaderCellDef> {{ displayedColumns[0] }} </mat-header-cell>
+      <mat-cell *matCellDef="let ride"> {{ ride.driver.firstname + ' ' + ride.driver.lastname }} </mat-cell>
+    </ng-container>
+
+    <!-- Source Column -->
+    <ng-container matColumnDef="{{ displayedColumns[1] }}">
+      <mat-header-cell *matHeaderCellDef> {{ displayedColumns[1] }} </mat-header-cell>
+      <mat-cell *matCellDef="let ride"> {{ride.from}} </mat-cell>
+    </ng-container>
+
+    <!-- Destination Column -->
+    <ng-container matColumnDef="{{ displayedColumns[2] }}">
+      <mat-header-cell *matHeaderCellDef> {{ displayedColumns[2] }} </mat-header-cell>
+      <mat-cell *matCellDef="let ride"> {{ride.to}} </mat-cell>
+    </ng-container>
+
+    <!-- Departure Column -->
+    <ng-container matColumnDef="{{ displayedColumns[3] }}">
+      <mat-header-cell *matHeaderCellDef> {{ displayedColumns[3] }} </mat-header-cell>
+      <mat-cell *matCellDef="let ride"> {{ ride.departureDate | date:'d/M/yy, H:mm' }} </mat-cell>
+    </ng-container>
+
+    <!-- Free spots Column -->
+    <ng-container matColumnDef="{{ displayedColumns[4] }}">
+      <mat-header-cell *matHeaderCellDef> {{ displayedColumns[4] }} </mat-header-cell>
+      <mat-cell *matCellDef="let ride"> {{ ride.maxRiders - ride.riders.length }} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]"
+                 [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>
