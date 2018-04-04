@@ -27,10 +27,15 @@ export class RideHttpService {
     }
 
     // TODO: Move backend address to env file.
-    return this.httpClient.get<ICollection<Ride>>('http://localhost:3000/ride', { responseType: 'json', observe: 'body', params });
+    return this.httpClient.get<ICollection<Ride>>('http://localhost:3000/ride',
+      { responseType: 'json', observe: 'body', params, withCredentials: true });
   }
 
   createRide(ride: Ride) {
-    return this.httpClient.post<Ride>('http://localhost:3000/ride', ride);
+    return this.httpClient.post<Ride>('http://localhost:3000/ride', ride, { withCredentials: true });
+  }
+
+  joinRide(ride: string, user: string) {
+    return this.httpClient.put<Ride>(`http://localhost:3000/ride/${ride}/join`, { user }, { withCredentials: true });
   }
 }

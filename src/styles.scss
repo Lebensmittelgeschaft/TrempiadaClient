@@ -30,6 +30,10 @@ body {
     margin: 0;
 }
 
+mat-table {
+    text-align: center;
+}
+
 span.md2-datepicker-placeholder {
     transition: all 400ms cubic-bezier(.25, .8, .25, 1);
 }
@@ -61,5 +65,5 @@ span.md2-datepicker-arrow {
 }
 
 .mat-sort-header-container {
-    float: right;
+    justify-content: center;
 }

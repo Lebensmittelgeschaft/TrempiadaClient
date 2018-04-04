@@ -24,32 +24,38 @@
 
     <!-- Driver Column -->
     <ng-container matColumnDef="{{ columnDefs[0] }}">
-      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before"> {{ displayedColumns[0] }} </mat-header-cell>
-      <mat-cell *matCellDef="let ride"> {{ ride.driver.firstname + ' ' + ride.driver.lastname }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">{{ displayedColumns[0] }}</mat-header-cell>
+      <mat-cell *matCellDef="let ride">{{ ride.driver.firstname + ' ' + ride.driver.lastname }}</mat-cell>
     </ng-container>
 
     <!-- Source Column -->
     <ng-container matColumnDef="{{ columnDefs[1] }}">
-      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before"> {{ displayedColumns[1] }} </mat-header-cell>
-      <mat-cell *matCellDef="let ride"> {{ride.from}} </mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">{{ displayedColumns[1] }}</mat-header-cell>
+      <mat-cell *matCellDef="let ride">{{ride.from}}</mat-cell>
     </ng-container>
 
     <!-- Destination Column -->
     <ng-container matColumnDef="{{ columnDefs[2] }}">
-      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before"> {{ displayedColumns[2] }} </mat-header-cell>
-      <mat-cell *matCellDef="let ride"> {{ride.to}} </mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">{{ displayedColumns[2] }}</mat-header-cell>
+      <mat-cell *matCellDef="let ride">{{ride.to}}</mat-cell>
     </ng-container>
 
     <!-- Departure Column -->
     <ng-container matColumnDef="{{ columnDefs[3] }}">
-      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before"> {{ displayedColumns[3] }} </mat-header-cell>
-      <mat-cell *matCellDef="let ride"> {{ ride.departureDate | date:'HH:mm ,dd/MM/y' }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">{{ displayedColumns[3] }}</mat-header-cell>
+      <mat-cell *matCellDef="let ride">{{ ride.departureDate | date:'HH:mm ,dd/MM/y' }}</mat-cell>
     </ng-container>
 
     <!-- Free spots Column -->
     <ng-container matColumnDef="{{ columnDefs[4] }}">
-      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before"> {{ displayedColumns[4] }} </mat-header-cell>
-      <mat-cell *matCellDef="let ride"> {{ ride.maxRiders - ride.riders.length }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">{{ displayedColumns[4] }}</mat-header-cell>
+      <mat-cell *matCellDef="let ride">{{ ride.maxRiders - ride.riders.length }}</mat-cell>
+    </ng-container>
+
+    <!-- Join ride Column -->
+    <ng-container matColumnDef="{{ columnDefs[5] }}">
+        <mat-header-cell *matHeaderCellDef>{{ displayedColumns[5] }}</mat-header-cell>
+        <mat-cell *matCellDef="let ride"><button mat-button *ngIf="canJoinRide(ride)" (click)="joinRide(ride)">Join</button></mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnDefs"></mat-header-row>

@@ -7,6 +7,7 @@ import { RidesPaginatorIntl } from './rides-paginator-intl';
 import { User } from '../../users/user.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Md2DateChange, Md2Datepicker, DateLocale } from 'md2';
+import { CookieService } from '../../cookie.service';
 
 @Component({
   selector: 'app-rides-table',
@@ -15,8 +16,8 @@ import { Md2DateChange, Md2Datepicker, DateLocale } from 'md2';
 })
 export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  displayedColumns = ['נהג', 'מקור', 'יעד', 'זמן יציאה', 'מקומות פנויים'];
-  columnDefs = ['driver', 'from', 'to', 'departureDate', 'freeSpots'];
+  displayedColumns = ['נהג', 'מקור', 'יעד', 'זמן יציאה', 'מקומות פנויים', ''];
+  columnDefs = ['driver', 'from', 'to', 'departureDate', 'freeSpots', 'join'];
   dataSource = new MatTableDataSource<Ride>();
   search = '';
   datepick = new Date();
@@ -28,7 +29,10 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatInput) matImput: MatInput; 
   @ViewChild(Md2Datepicker) datePicker: Md2Datepicker;
 
-  constructor(private rideService: RideService, private rideHttpService: RideHttpService, private dateLocaleService: DateLocale) {}
+  constructor(private rideService: RideService,
+              private rideHttpService: RideHttpService,
+              private dateLocaleService: DateLocale,
+              private cookieService: CookieService) {}
 
   ngOnInit() {
     this.dateLocaleService.locale = 'he-IL';
@@ -131,5 +135,31 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSearch() {
     this.getRides();
+  }
+
+  canJoinRide(ride: Ride) {
+    const id = this.cookieService.getCookie('sid');
+    return (ride.driver !== id &&
+      (<string[]>ride.riders).indexOf(id) === -1 &&
+      ride.riders.length < ride.maxRiders &&
+      ride.departureDate.getTime() > Date.now() &&
+      !ride.isDeleted);
+  }
+
+  joinRide(ride: Ride) {
+    if (this.canJoinRide(ride)) {
+      this.rideHttpService.joinRide(ride._id, this.cookieService.getCookie('sid')).subscribe((newRide) => {
+        for (let i = 0; i < this.dataSource.data.length; i++) {
+          if (this.dataSource.data[i]._id === newRide._id) {
+            const tempDataSource = [...this.dataSource.data];
+            tempDataSource[i] = newRide;
+            this.dataSource.data = tempDataSource;
+            this.paginator._changePageSize(this.paginator.pageSize);
+
+            break;
+          }
+        }
+      });
+    }
   }
 }

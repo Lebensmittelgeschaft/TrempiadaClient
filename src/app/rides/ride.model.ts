@@ -8,7 +8,7 @@ export class Ride {
                        public maxRiders: number,
                        public creationDate: Date,
                        public departureDate: Date,
-                       public riders: string | User[],
+                       public riders: string[] | User[],
                        public isDeleted: boolean) {
         this._id = _id;
         this.driver = driver;

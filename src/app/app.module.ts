@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { RideItemComponent } from './rides/ride-item/ride-item.component';
 import { RideHttpService } from './rides/ride-http.service';
 import { RideService } from './rides/ride.service';
+import { CookieService } from './cookie.service';
 
 
 @NgModule({
@@ -44,7 +45,7 @@ import { RideService } from './rides/ride.service';
     Md2Module,
     MatInputModule
   ],
-  providers: [RideHttpService, RideService],
+  providers: [RideHttpService, RideService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
