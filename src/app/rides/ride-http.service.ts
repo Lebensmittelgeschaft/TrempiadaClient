@@ -23,7 +23,7 @@ export class RideHttpService {
 
     if (dateFilter && dateFilter.toDateString() !== 'Invalid Date') {
       const actualDatePicked = new Date(dateFilter.getTime() - dateFilter.getTimezoneOffset() * 60 * 1000);
-      params = params.append('d', actualDatePicked.toJSON());
+      params = params.append('d', actualDatePicked.toISOString());
     }
 
     // TODO: Move backend address to env file.

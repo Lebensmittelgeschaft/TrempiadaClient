@@ -18,6 +18,7 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns = ['נהג', 'מקור', 'יעד', 'זמן יציאה', 'מקומות פנויים'];
   columnDefs = ['driver', 'from', 'to', 'departureDate', 'freeSpots'];
   dataSource = new MatTableDataSource<Ride>();
+  search = '';
   paginatorPageSubscription: Subscription;
   updateDatepickerInterval;
 
@@ -35,7 +36,7 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 1000 * 60);
     this.getRides();
     this.paginatorPageSubscription = this.paginator.page.subscribe((pageEvent: PageEvent) => {
-      this.getRides(pageEvent.pageIndex, pageEvent.pageSize, undefined, this.datePicker.value);
+      this.getRides();
       this.updateDataSource();
     });
   }
@@ -107,8 +108,11 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.datePicker.startAt = this.datePicker.min;
   }
 
-  getRides(page?: number, size?: number, search?: string, dateFilter?: Date) {
-    const sub = this.rideHttpService.getRides(page, size, search, dateFilter).subscribe((data) => {
+  getRides() {
+    const sub = this.rideHttpService.getRides(this.paginator.pageIndex,
+      this.paginator.pageSize,
+      this.search,
+      this.datePicker.value).subscribe((data) => {
       data.set = data.set.map((v) => {
         const departureDateWithOffset = new Date(v.departureDate);
         const creationDateWithOffset = new Date(v.creationDate);
@@ -124,7 +128,7 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  onDatePick(dateChange: Md2DateChange) {
-    this.getRides(this.paginator.pageIndex, this.paginator.pageSize, undefined, dateChange.value);
+  onSearch() {
+    this.getRides();
   }
 }

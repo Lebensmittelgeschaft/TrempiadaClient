@@ -1,9 +1,9 @@
 <div class="search-inputs">
   <mat-form-field class="search-field">
-      <input dir="rtl" matInput type="search" placeholder="יעד/מקור">
+      <input dir="rtl" matInput [(ngModel)]="search" (keydown.enter)="onSearch()" maxlength="20" [type]="search" placeholder="יעד/מקור">
   </mat-form-field>
 
-  <md2-datepicker (change)="onDatePick($event)"
+  <md2-datepicker (change)="onSearch()"
   type="datetime"
   format="H:mm ,d/M/yy"
   placeholder="זמן יציאה"
