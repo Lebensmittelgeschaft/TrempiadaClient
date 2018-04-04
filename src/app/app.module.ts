@@ -2,9 +2,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatSidenavModule, MatTableModule, MatPaginatorModule } from '@angular/material';
+import { MatToolbarModule,
+         MatSidenavModule,
+         MatTableModule,
+         MatPaginatorModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSortModule } from '@angular/material/sort';
+import { Md2Module, NoConflictStyleCompatibilityMode } from 'md2';
+import { MatInputModule } from '@angular/material/input';
+
 
 
 import { AppComponent } from './app.component';
@@ -33,7 +39,10 @@ import { RideService } from './rides/ride.service';
     MatTableModule,
     MatPaginatorModule,
     MatButtonModule,
-    MatSortModule
+    MatSortModule,
+    NoConflictStyleCompatibilityMode,
+    Md2Module,
+    MatInputModule
   ],
   providers: [RideHttpService, RideService],
   bootstrap: [AppComponent]

@@ -1,33 +1,48 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import {MatPaginator, MatTableDataSource, PageEvent, MatSort} from '@angular/material';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import {MatPaginator, MatTableDataSource, PageEvent, MatSort, MatInput} from '@angular/material';
 import { RideHttpService } from '../ride-http.service';
 import { Ride } from '../ride.model';
 import { RideService } from '../ride.service';
 import { RidesPaginatorIntl } from './rides-paginator-intl';
 import { User } from '../../users/user.model';
+import { Subscription } from 'rxjs/Subscription';
+import { Md2DateChange, Md2Datepicker, DateLocale } from 'md2';
 
 @Component({
   selector: 'app-rides-table',
   templateUrl: './rides-table.component.html',
   styleUrls: ['./rides-table.component.scss']
 })
-export class RidesTableComponent implements OnInit, AfterViewInit {
+export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   displayedColumns = ['נהג', 'מקור', 'יעד', 'זמן יציאה', 'מקומות פנויים'];
   columnDefs = ['driver', 'from', 'to', 'departureDate', 'freeSpots'];
   dataSource = new MatTableDataSource<Ride>();
+  paginatorPageSubscription: Subscription;
+  updateDatepickerInterval;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatInput) matImput: MatInput; 
+  @ViewChild(Md2Datepicker) datePicker: Md2Datepicker;
 
-  constructor(private rideService: RideService, private rideHttpService: RideHttpService) {}
+  constructor(private rideService: RideService, private rideHttpService: RideHttpService, private dateLocaleService: DateLocale) {}
 
   ngOnInit() {
+    this.dateLocaleService.locale = 'he-IL';
+    this.updateDatepickerInterval = setInterval(() => {
+      this.updateDatepicker();
+    }, 1000 * 60);
     this.getRides();
-    this.paginator.page.subscribe((pageEvent: PageEvent) => {
-      this.getRides(pageEvent.pageIndex, pageEvent.pageSize);
+    this.paginatorPageSubscription = this.paginator.page.subscribe((pageEvent: PageEvent) => {
+      this.getRides(pageEvent.pageIndex, pageEvent.pageSize, undefined, this.datePicker.value);
       this.updateDataSource();
     });
+  }
+
+  ngOnDestroy() {
+    this.paginatorPageSubscription.unsubscribe();
+    clearInterval(this.updateDatepickerInterval);
   }
 
   /**
@@ -35,6 +50,7 @@ export class RidesTableComponent implements OnInit, AfterViewInit {
    * be able to query its view for the initialized paginator.
    */
   ngAfterViewInit() {
+    this.updateDatepicker();
     this.paginator._intl = new RidesPaginatorIntl();
     this.paginator._intl.firstPageLabel = 'עמוד ראשון';
     this.paginator._intl.itemsPerPageLabel = 'גודל עמוד';
@@ -86,14 +102,29 @@ export class RidesTableComponent implements OnInit, AfterViewInit {
     this.paginator.length = this.rideService.ridesCollection.totalCount;
   }
 
-  getRides(page?: number, size?: number) {
-    this.rideHttpService.getRides(page, size).subscribe((data) => {
+  updateDatepicker() {
+    this.datePicker.min = new Date();
+    this.datePicker.startAt = this.datePicker.min;
+  }
+
+  getRides(page?: number, size?: number, search?: string, dateFilter?: Date) {
+    const sub = this.rideHttpService.getRides(page, size, search, dateFilter).subscribe((data) => {
       data.set = data.set.map((v) => {
-        return {...v, departureDate: new Date(v.departureDate), creationDate: new Date(v.creationDate)};
+        const departureDateWithOffset = new Date(v.departureDate);
+        const creationDateWithOffset = new Date(v.creationDate);
+        const actualDepartureDate = new Date(departureDateWithOffset.getTime() + departureDateWithOffset.getTimezoneOffset() * 60 * 1000);
+        const actualCreationDate = new Date(creationDateWithOffset.getTime() + creationDateWithOffset.getTimezoneOffset() * 60 * 1000);
+        return {...v, departureDate: actualDepartureDate, creationDate: actualCreationDate};
       });
 
       this.rideService.ridesCollection = data;
       this.updateDataSource();
+
+      sub.unsubscribe();
     });
+  }
+
+  onDatePick(dateChange: Md2DateChange) {
+    this.getRides(this.paginator.pageIndex, this.paginator.pageSize, undefined, dateChange.value);
   }
 }
