@@ -19,6 +19,7 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy {
   columnDefs = ['driver', 'from', 'to', 'departureDate', 'freeSpots'];
   dataSource = new MatTableDataSource<Ride>();
   search = '';
+  datepick = new Date();
   paginatorPageSubscription: Subscription;
   updateDatepickerInterval;
 

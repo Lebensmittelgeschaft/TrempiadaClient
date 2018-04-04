@@ -1,11 +1,13 @@
 <div class="search-inputs">
   <mat-form-field class="search-field">
-      <input dir="rtl" matInput [(ngModel)]="search" (keydown.enter)="onSearch()" maxlength="20" [type]="search" placeholder="יעד/מקור">
+      <input dir="rtl" matInput [(ngModel)]="search" (keyup.enter)="onSearch()" maxlength="20" [type]="search" placeholder="יעד/מקור">
   </mat-form-field>
 
-  <md2-datepicker (change)="onSearch()"
+  <md2-datepicker 
+  (change)="onSearch()"
+  (keyup.enter)="onSearch()"
   type="datetime"
-  format="H:mm ,d/M/yy"
+  format="H:mm ,d/M/y"
   placeholder="זמן יציאה"
   timeInterval="5"
   [min]="minDatePick"
@@ -41,7 +43,7 @@
     <!-- Departure Column -->
     <ng-container matColumnDef="{{ columnDefs[3] }}">
       <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before"> {{ displayedColumns[3] }} </mat-header-cell>
-      <mat-cell *matCellDef="let ride"> {{ ride.departureDate | date:'H:mm ,d/M/yy' }} </mat-cell>
+      <mat-cell *matCellDef="let ride"> {{ ride.departureDate | date:'HH:mm ,dd/MM/y' }} </mat-cell>
     </ng-container>
 
     <!-- Free spots Column -->
