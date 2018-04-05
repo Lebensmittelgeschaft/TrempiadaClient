@@ -1,25 +1,7 @@
-<div class="search-inputs">
-  <mat-form-field class="search-field">
-      <input dir="rtl" matInput [(ngModel)]="search" (keyup.enter)="onSearch()" maxlength="20" [type]="search" placeholder="יעד/מקור">
-  </mat-form-field>
-
-  <md2-datepicker 
-  (change)="onSearch()"
-  (keyup.enter)="onSearch()"
-  type="datetime"
-  format="H:mm ,d/M/y"
-  placeholder="זמן יציאה"
-  timeInterval="5"
-  [min]="minDatePick"
-  mode="portrait"
-  [startAt]="minDatePick"
-  startView="clock">
-  </md2-datepicker>
-</div>
 <div class="table-container mat-elevation-z8">
   <mat-table 
     #table 
-    [dataSource]="dataSource"
+    [dataSource]="rideService.dataSource"
     matSort>
 
     <!-- Driver Column -->
@@ -55,7 +37,11 @@
     <!-- Join ride Column -->
     <ng-container matColumnDef="{{ columnDefs[5] }}">
         <mat-header-cell *matHeaderCellDef>{{ displayedColumns[5] }}</mat-header-cell>
-        <mat-cell *matCellDef="let ride"><button mat-button *ngIf="canJoinRide(ride)" (click)="joinRide(ride)">Join</button></mat-cell>
+        <mat-cell *matCellDef="let ride">
+          <button matTooltip="הכנס לטרמפ" class="join-ride" *ngIf="canJoinRide(ride)" (click)="joinRide(ride)" mat-icon-button>
+              <img src="../../../assets/ic_directions_car_black_24px.svg">
+          </button>
+        </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnDefs"></mat-header-row>
@@ -70,4 +56,4 @@
   </mat-paginator>
 </div>
 
-<button mat-fab><img src="../../../assets/ic_add_white_24px.svg"></button>
+<button mat-fab matTooltip="הוסף טרמפ"><img src="../../../assets/ic_add_white_24px.svg"></button>

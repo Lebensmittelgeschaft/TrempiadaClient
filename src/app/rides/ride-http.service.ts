@@ -3,13 +3,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import 'rxjs/add/operator/map';
 import { Ride } from './ride.model';
-import { RideService } from './ride.service';
 import { ICollection } from '../collection.interface';
 
 @Injectable()
 export class RideHttpService {
 
-  constructor(private httpClient: HttpClient, private rideService: RideService) { }
+  constructor(private httpClient: HttpClient) { }
 
   getRides(page?: number, size?: number, search?: string, dateFilter?: Date) {
     let params: HttpParams = new HttpParams();

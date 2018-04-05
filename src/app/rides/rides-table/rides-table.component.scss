@@ -20,30 +20,3 @@ button[mat-fab] {
     bottom: 23px;
     left: 23px;
 }
-
-.search-inputs {
-    display: flex;
-}
-
-md2-datepicker, md2-calendar {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    font-size: 16px;
-    font-stretch: 100%;
-    font-style: normal;
-    font-variant-caps: normal;
-    font-variant-east-asian: normal;
-    font-variant-ligatures: normal;
-    font-variant-numeric: normal;
-    font-weight: 400;
-    letter-spacing: normal;
-    line-height: 18px;
-}
-
-md2-datepicker, mat-form-field {
-    margin-top: 1em;
-    margin-right: 25%;
-}
-
-.search-field {
-    min-width: 150px;
-}

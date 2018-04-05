@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, AfterContentChecked , Input } from '@angular/core';
 import {MatPaginator, MatTableDataSource, PageEvent, MatSort, MatInput} from '@angular/material';
 import { RideHttpService } from '../ride-http.service';
 import { Ride } from '../ride.model';
@@ -8,62 +8,48 @@ import { User } from '../../users/user.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Md2DateChange, Md2Datepicker, DateLocale } from 'md2';
 import { CookieService } from '../../cookie.service';
+import { ICollection } from '../../collection.interface';
 
 @Component({
   selector: 'app-rides-table',
   templateUrl: './rides-table.component.html',
   styleUrls: ['./rides-table.component.scss']
 })
-export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy {
+export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy, AfterContentChecked {
 
   displayedColumns = ['נהג', 'מקור', 'יעד', 'זמן יציאה', 'מקומות פנויים', ''];
   columnDefs = ['driver', 'from', 'to', 'departureDate', 'freeSpots', 'join'];
-  dataSource = new MatTableDataSource<Ride>();
-  search = '';
-  datepick = new Date();
-  paginatorPageSubscription: Subscription;
-  updateDatepickerInterval;
+  private paginatorPageSubscription: Subscription;
+  private datePickerSubscription: Subscription;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatInput) matImput: MatInput; 
-  @ViewChild(Md2Datepicker) datePicker: Md2Datepicker;
 
   constructor(private rideService: RideService,
               private rideHttpService: RideHttpService,
-              private dateLocaleService: DateLocale,
               private cookieService: CookieService) {}
 
   ngOnInit() {
-    this.dateLocaleService.locale = 'he-IL';
-    this.updateDatepickerInterval = setInterval(() => {
-      this.updateDatepicker();
-    }, 1000 * 60);
-    this.getRides();
     this.paginatorPageSubscription = this.paginator.page.subscribe((pageEvent: PageEvent) => {
+      this.rideService.pageIndex = this.paginator.pageIndex;
+      this.rideService.pageSize = this.paginator.pageSize;
       this.getRides();
-      this.updateDataSource();
     });
   }
 
   ngOnDestroy() {
     this.paginatorPageSubscription.unsubscribe();
-    clearInterval(this.updateDatepickerInterval);
+    this.datePickerSubscription.unsubscribe();
   }
-
-  /**
-   * Set the paginator after the view init since this component will
-   * be able to query its view for the initialized paginator.
-   */
+  
   ngAfterViewInit() {
-    this.updateDatepicker();
     this.paginator._intl = new RidesPaginatorIntl();
     this.paginator._intl.firstPageLabel = 'עמוד ראשון';
     this.paginator._intl.itemsPerPageLabel = 'גודל עמוד';
     this.paginator._intl.lastPageLabel = 'עמוד אחרון';
     this.paginator._intl.nextPageLabel = 'עמוד הבא';
     this.paginator._intl.previousPageLabel = 'עמוד קודם';
-    this.dataSource.sortingDataAccessor = (ride: Ride, sortHeaderId: string): string | number => {
+    this.rideService.dataSource.sortingDataAccessor = (ride: Ride, sortHeaderId: string): string | number => {
       let data: string | number = '';
       switch (sortHeaderId) {
         case this.columnDefs[0]: {
@@ -99,42 +85,17 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy {
       return data;
     };
     
-    this.dataSource.sort = this.sort;
+    this.rideService.dataSource.sort = this.sort;
     // this.dataSource.paginator = this.paginator;
   }
 
-  updateDataSource() {
-    this.dataSource.data = this.rideService.ridesCollection.set;
-    this.paginator.length = this.rideService.ridesCollection.totalCount;
-  }
-
-  updateDatepicker() {
-    this.datePicker.min = new Date();
-    this.datePicker.startAt = this.datePicker.min;
+  ngAfterContentChecked() {
+    this.paginator.length = this.rideService.paginatorLength;
   }
 
   getRides() {
-    const sub = this.rideHttpService.getRides(this.paginator.pageIndex,
-      this.paginator.pageSize,
-      this.search,
-      this.datePicker.value).subscribe((data) => {
-      data.set = data.set.map((v) => {
-        const departureDateWithOffset = new Date(v.departureDate);
-        const creationDateWithOffset = new Date(v.creationDate);
-        const actualDepartureDate = new Date(departureDateWithOffset.getTime() + departureDateWithOffset.getTimezoneOffset() * 60 * 1000);
-        const actualCreationDate = new Date(creationDateWithOffset.getTime() + creationDateWithOffset.getTimezoneOffset() * 60 * 1000);
-        return {...v, departureDate: actualDepartureDate, creationDate: actualCreationDate};
-      });
-
-      this.rideService.ridesCollection = data;
-      this.updateDataSource();
-
-      sub.unsubscribe();
-    });
-  }
-
-  onSearch() {
-    this.getRides();
+    this.rideService.getRides();
+    this.paginator.length = this.rideService.paginatorLength;
   }
 
   canJoinRide(ride: Ride) {
@@ -149,11 +110,11 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy {
   joinRide(ride: Ride) {
     if (this.canJoinRide(ride)) {
       this.rideHttpService.joinRide(ride._id, this.cookieService.getCookie('sid')).subscribe((newRide) => {
-        for (let i = 0; i < this.dataSource.data.length; i++) {
-          if (this.dataSource.data[i]._id === newRide._id) {
-            const tempDataSource = [...this.dataSource.data];
+        for (let i = 0; i < this.rideService.dataSource.data.length; i++) {
+          if (this.rideService.dataSource.data[i]._id === newRide._id) {
+            const tempDataSource = [...this.rideService.dataSource.data];
             tempDataSource[i] = newRide;
-            this.dataSource.data = tempDataSource;
+            this.rideService.dataSource.data = tempDataSource;
             this.paginator._changePageSize(this.paginator.pageSize);
 
             break;
