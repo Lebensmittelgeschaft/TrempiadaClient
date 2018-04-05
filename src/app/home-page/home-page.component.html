@@ -3,24 +3,23 @@
 </mat-toolbar>
 <div class="search-inputs">
   <mat-form-field class="search-field">
-      <input dir="rtl" matInput [(ngModel)]="search" (keyup.enter)="onSearch()" maxlength="20" [type]="search" placeholder="יעד/מקור">
+      <input matInput [(ngModel)]="search" (keyup.enter)="onSearch()" maxlength="20" [type]="search" placeholder="יעד/מקור">
   </mat-form-field>
 
   <md2-datepicker 
-  (change)="onSearch()"
-  (keyup.enter)="onSearch()"
-  type="datetime"
-  format="H:mm ,d/M/y"
-  placeholder="זמן יציאה"
-  timeInterval="5"
-  [min]="minDatePick"
-  mode="portrait"
-  [startAt]="minDatePick"
-  startView="clock"
-  [openOnFocus]="true">
+    (change)="onSearch()"
+    (keyup.enter)="onSearch()"
+    type="datetime"
+    format="H:mm ,d/M/y"
+    placeholder="זמן יציאה"
+    timeInterval="5"
+    mode="portrait"
+    startView="clock"
+    [openOnFocus]="true">
   </md2-datepicker>
   <button class="date-reset" *ngIf="datePicker.value" (click)="resetDatePick()" mat-icon-button>
       <img style="width: 16px; height: 16px;" src="../../../assets/ic_clear_black_24px.svg">
   </button>
 </div>
 <app-rides-table></app-rides-table>
+<button mat-fab matTooltip="הוספת טרמפ" (click)="openDialog()"><img src="../../../assets/ic_add_white_24px.svg"></button>

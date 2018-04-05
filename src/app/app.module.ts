@@ -11,8 +11,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { Md2Module, NoConflictStyleCompatibilityMode } from 'md2';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
-
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -21,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { RideHttpService } from './rides/ride-http.service';
 import { RideService } from './rides/ride.service';
 import { CookieService } from './cookie.service';
+import { AddRideDialogComponent } from './home-page/add-ride-dialog/add-ride-dialog.component';
 
 
 @NgModule({
@@ -28,6 +28,7 @@ import { CookieService } from './cookie.service';
     AppComponent,
     HomePageComponent,
     RidesTableComponent,
+    AddRideDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -43,9 +44,12 @@ import { CookieService } from './cookie.service';
     NoConflictStyleCompatibilityMode,
     Md2Module,
     MatInputModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule,
+    FormsModule
   ],
   providers: [RideHttpService, RideService, CookieService],
+  entryComponents: [AddRideDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

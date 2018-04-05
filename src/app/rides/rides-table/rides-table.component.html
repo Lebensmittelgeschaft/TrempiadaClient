@@ -38,8 +38,8 @@
     <ng-container matColumnDef="{{ columnDefs[5] }}">
         <mat-header-cell *matHeaderCellDef>{{ displayedColumns[5] }}</mat-header-cell>
         <mat-cell *matCellDef="let ride">
-          <button matTooltip="הכנס לטרמפ" class="join-ride" *ngIf="canJoinRide(ride)" (click)="joinRide(ride)" mat-icon-button>
-              <img src="../../../assets/ic_directions_car_black_24px.svg">
+          <button matTooltip="הצטרפות לטרמפ" class="join-ride" *ngIf="canJoinRide(ride)" (click)="joinRide(ride)" mat-icon-button>
+              <img src="../../../assets/ic_directions_car_black_24px.svg" style="opacity: 0.6;">
           </button>
         </mat-cell>
     </ng-container>
@@ -55,5 +55,3 @@
                  >
   </mat-paginator>
 </div>
-
-<button mat-fab matTooltip="הוסף טרמפ"><img src="../../../assets/ic_add_white_24px.svg"></button>

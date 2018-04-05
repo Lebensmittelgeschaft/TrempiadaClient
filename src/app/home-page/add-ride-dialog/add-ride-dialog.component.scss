@@ -1,0 +1,22 @@
+div[mat-dialog-content] {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+}
+
+div.form-container {
+    display: inline-flex;
+}
+
+mat-form-field.ride-input {
+    margin: 1em 5em;
+}
+
+button.date-reset {
+    display: block;
+}
+
+button.submit-button {
+    margin: 2em 1em;
+}

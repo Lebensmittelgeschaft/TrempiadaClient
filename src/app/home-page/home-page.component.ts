@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { MatInput } from '@angular/material';
+import { MatInput, MatDialog } from '@angular/material';
 import { Md2Datepicker } from 'md2';
 import { Subscription } from 'rxjs/Subscription';
 import { RideHttpService } from '../rides/ride-http.service';
 import { RideService } from '../rides/ride.service';
+import { AddRideDialogComponent } from './add-ride-dialog/add-ride-dialog.component';
+import { Ride } from '../rides/ride.model';
 
 @Component({
   selector: 'app-home-page',
@@ -17,7 +19,9 @@ export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatInput) matInput: MatInput; 
   @ViewChild(Md2Datepicker) datePicker: Md2Datepicker;
 
-  constructor(private rideHttpService: RideHttpService, private rideService: RideService) { }
+  constructor(private rideHttpService: RideHttpService,
+              private rideService: RideService,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
     this.rideService.getRides();
@@ -30,6 +34,19 @@ export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.datePickerSubscription = this.datePicker.onOpen.subscribe(() => {
       this.updateDatepicker();
+    });
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open<AddRideDialogComponent, Ride>(AddRideDialogComponent, {
+      width: '80%',
+      autoFocus: false,
+      closeOnNavigation: true,
+      direction: 'rtl'
+    });
+
+    dialogRef.afterClosed().subscribe((result: Ride) => {
+      console.log('The dialog was closed: ' + result);
     });
   }
 

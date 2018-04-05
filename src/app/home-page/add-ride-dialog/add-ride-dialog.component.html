@@ -1,0 +1,39 @@
+<button class="close-dialog" [mat-dialog-close]="data" mat-icon-button>
+    <img style="width: 16px; height: 16px;" src="../../../assets/ic_clear_black_24px.svg">
+</button>
+<h1 mat-dialog-title>הוספת טרמפ</h1>
+<form (ngSubmit)="addRide(f)" #f="ngForm">
+    <div class="form-container">
+        <div mat-dialog-content>
+            <mat-form-field class="ride-input">
+                <input matInput ngModel required name="from" maxlength="20" type="input" placeholder="מקור">
+            </mat-form-field>
+
+            <mat-form-field class="ride-input">
+                <input matInput ngModel required name="to" maxlength="20" type="input" placeholder="יעד">
+            </mat-form-field>
+
+            <mat-form-field class="ride-input">
+                <input matInput ngModel required name="maxRiders" pattern="^[1-5]$" type="number" placeholder="מספר נוסעים">
+            </mat-form-field>
+
+            <md2-datepicker
+            type="datetime"
+            format="H:mm ,d/M/y"
+            placeholder="זמן יציאה"
+            timeInterval="5"
+            mode="portrait"
+            startView="clock"
+            [openOnFocus]="true"
+            ngModel
+            required
+            name="departureDate"
+            class="ride-input">
+            </md2-datepicker>
+            <button class="date-reset" *ngIf="datePicker.value" (click)="datePicker.value = null" mat-icon-button>
+                <img style="width: 16px; height: 16px;" src="../../../assets/ic_clear_black_24px.svg">
+            </button>
+        </div>
+    </div>
+    <button mat-raised-button color="primary" class="submit-button" mat-dialog-actions [disabled]="!f.valid" type="submit">שלח</button>
+</form>

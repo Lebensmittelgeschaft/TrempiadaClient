@@ -15,8 +15,6 @@ mat-paginator {
     margin: 0 auto;
 }
 
-button[mat-fab] {
-    position: fixed;
-    bottom: 23px;
-    left: 23px;
+mat-cell.mat-cell.cdk-column-join.mat-column-join, mat-header-cell.mat-header-cell.cdk-column-join.mat-column-join {
+    max-width: 5em;
 }

@@ -3,28 +3,21 @@
 }
 
 button.date-reset {
-    margin: 2em -3em;
-}
-
-md2-datepicker, md2-calendar {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    font-size: 16px;
-    font-stretch: 100%;
-    font-style: normal;
-    font-variant-caps: normal;
-    font-variant-east-asian: normal;
-    font-variant-ligatures: normal;
-    font-variant-numeric: normal;
-    font-weight: 400;
-    letter-spacing: normal;
-    line-height: 18px;
+    margin-top: 2em;
 }
 
 md2-datepicker, mat-form-field {
     margin-top: 1em;
     margin-right: 25%;
+    text-align: right;
 }
 
 .search-field {
     min-width: 150px;
+}
+
+button[mat-fab] {
+    position: fixed;
+    bottom: 23px;
+    left: 23px;
 }
