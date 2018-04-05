@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+declare function unescape(string: string);
+
 @Injectable()
 export class CookieService {
 

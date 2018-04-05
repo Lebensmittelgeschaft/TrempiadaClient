@@ -46,7 +46,7 @@ export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result: Ride) => {
-      console.log('The dialog was closed: ' + result);
+      this.rideService.getRides();
     });
   }
 

@@ -100,11 +100,11 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy, Af
 
   canJoinRide(ride: Ride) {
     const id = this.cookieService.getCookie('sid');
-    return (ride.driver !== id &&
-      (<string[]>ride.riders).indexOf(id) === -1 &&
-      ride.riders.length < ride.maxRiders &&
-      ride.departureDate.getTime() > Date.now() &&
-      !ride.isDeleted);
+    return ((<User>ride.driver)._id !== id &&
+            (ride.riders.map(v => v.rider)).indexOf(id) === -1 &&
+            ride.riders.length < ride.maxRiders &&
+            ride.departureDate.getTime() > Date.now() &&
+            !ride.isDeleted);
   }
 
   joinRide(ride: Ride) {
