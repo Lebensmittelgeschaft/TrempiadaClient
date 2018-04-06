@@ -9,7 +9,7 @@ export class UserHttpService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getRides(userid: string, page?: number, size?: number) {
+  getUserRides(userid: string, page?: number, size?: number) {
     let params: HttpParams = new HttpParams();
     if (page !== undefined && size !== undefined && page >= 0 && size >= 0) {
       params = params.append('p', page.toString()).append('ps', size.toString());

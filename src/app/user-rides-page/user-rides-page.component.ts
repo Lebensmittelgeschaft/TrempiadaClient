@@ -11,7 +11,7 @@ export class UserRidesPageComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.getRides();
+    this.userService.getUserRides();
   }
 
 }

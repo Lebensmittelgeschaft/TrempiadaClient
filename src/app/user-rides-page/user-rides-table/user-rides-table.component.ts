@@ -29,7 +29,7 @@ export class UserRidesTableComponent implements OnInit, AfterViewInit, OnDestroy
     this.paginatorPageSubscription = this.paginator.page.subscribe((pageEvent: PageEvent) => {
       this.userService.pageIndex = this.paginator.pageIndex;
       this.userService.pageSize = this.paginator.pageSize;
-      this.getRides();
+      this.getUserRides();
     });
   }
 
@@ -90,8 +90,8 @@ export class UserRidesTableComponent implements OnInit, AfterViewInit, OnDestroy
     this.paginator.length = this.userService.paginatorLength;
   }
 
-  getRides() {
-    this.userService.getRides();
+  getUserRides() {
+    this.userService.getUserRides();
     this.paginator.length = this.userService.paginatorLength;
   }
 }

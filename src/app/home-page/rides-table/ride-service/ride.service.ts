@@ -19,18 +19,14 @@ export class RideService {
       this.pageSize,
       this.search,
       this.datePick).subscribe((data) => {
-      data.set = data.set.map((v) => {
-        const departureDateWithOffset = new Date(v.departureDate);
-        const creationDateWithOffset = new Date(v.creationDate);
-        const actualDepartureDate = new Date(departureDateWithOffset.getTime() + departureDateWithOffset.getTimezoneOffset() * 60 * 1000);
-        const actualCreationDate = new Date(creationDateWithOffset.getTime() + creationDateWithOffset.getTimezoneOffset() * 60 * 1000);
-        return {...v, departureDate: actualDepartureDate, creationDate: actualCreationDate};
-      });
-
-      this.dataSource.data = data.set;
-      this.paginatorLength = data.totalCount;
-
-      sub.unsubscribe();
+        data.set.forEach((v) => {
+          v.departureDate = new Date(v.departureDate);
+          v.creationDate = new Date(v.creationDate);
+        });
+        
+        this.dataSource.data = data.set;
+        this.paginatorLength = data.totalCount;
+        sub.unsubscribe();
     });
   }
 }

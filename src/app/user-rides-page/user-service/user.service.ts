@@ -18,16 +18,10 @@ export class UserService {
   getRideById(id: string) {
     id = `5ab9fab87975c413c0b002af`;
     const sub = this.rideHttpService.getRideById(id).subscribe((data) => {
-      const departureDateWithOffset = new Date(data.departureDate);
-      const creationDateWithOffset = new Date(data.creationDate);
-      const actualDepartureDate = new Date(departureDateWithOffset.getTime() + departureDateWithOffset.getTimezoneOffset() * 60 * 1000);
-      const actualCreationDate = new Date(creationDateWithOffset.getTime() + creationDateWithOffset.getTimezoneOffset() * 60 * 1000);
-
-      data.riders = data.riders.map((e) => {
-        const joinDate = new Date(e.joinDate);
-        e.joinDate = new Date(joinDate.getTime() + joinDate.getTimezoneOffset() * 60 * 1000);
-
-        return e;
+      data.departureDate = new Date(data.departureDate);
+      data.creationDate = new Date(data.creationDate);
+      data.riders.forEach((e) => {
+        e.joinDate = new Date(e.joinDate);
       });
 
       this.currentRide = data;
@@ -35,15 +29,12 @@ export class UserService {
     });
   }
   
-  getRides() {
+  getUserRides() {
     const id = this.cookieService.getCookie('sid');
-    const sub = this.userHttpService.getRides(id, this.pageIndex, this.pageSize).subscribe((data) => {
-      data.set = data.set.map((v) => {
-        const departureDateWithOffset = new Date(v.departureDate);
-        const creationDateWithOffset = new Date(v.creationDate);
-        const actualDepartureDate = new Date(departureDateWithOffset.getTime() + departureDateWithOffset.getTimezoneOffset() * 60 * 1000);
-        const actualCreationDate = new Date(creationDateWithOffset.getTime() + creationDateWithOffset.getTimezoneOffset() * 60 * 1000);
-        return {...v, departureDate: actualDepartureDate, creationDate: actualCreationDate};
+    const sub = this.userHttpService.getUserRides(id, this.pageIndex, this.pageSize).subscribe((data) => {
+      data.set.forEach((v) => {
+        v.departureDate = new Date(v.departureDate);
+        v.creationDate = new Date(v.creationDate);
       });
 
       this.dataSource.data = data.set;

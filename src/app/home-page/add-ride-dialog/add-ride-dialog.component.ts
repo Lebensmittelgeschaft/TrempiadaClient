@@ -92,7 +92,7 @@ export class AddRideDialogComponent implements AfterViewInit {
     const userid = this.cookieService.getCookie('sid');
     
     if (this.canAddRide(rideInfo)) {
-      rideInfo.departureDate = new Date(rideInfo.departureDate.getTime() - rideInfo.departureDate.getTimezoneOffset() * 60 * 1000);
+      rideInfo.departureDate = new Date(rideInfo.departureDate);
       rideInfo.departureDate.setUTCSeconds(0);
       rideInfo.maxRiders = +rideInfo.maxRiders;
 
