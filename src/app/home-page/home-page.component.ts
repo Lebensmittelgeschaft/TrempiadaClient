@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular
 import { MatInput, MatDialog } from '@angular/material';
 import { Md2Datepicker } from 'md2';
 import { Subscription } from 'rxjs/Subscription';
-import { RideHttpService } from '../rides/ride-http.service';
-import { RideService } from '../rides/ride.service';
 import { AddRideDialogComponent } from './add-ride-dialog/add-ride-dialog.component';
-import { Ride } from '../rides/ride.model';
+import { RideHttpService } from '../ride/ride-http-service/ride-http.service';
+import { RideService } from './rides-table/ride-service/ride.service';
+import { Ride } from '../ride/ride.model';
 
 @Component({
   selector: 'app-home-page',

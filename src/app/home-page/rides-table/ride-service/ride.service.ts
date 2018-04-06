@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Ride } from './ride.model';
-import { ICollection } from '../collection.interface';
-import { RideHttpService } from './ride-http.service';
 import { MatTableDataSource } from '@angular/material';
+import { RideHttpService } from '../../../ride/ride-http-service/ride-http.service';
+import { Ride } from '../../../ride/ride.model';
 
 @Injectable()
 export class RideService {

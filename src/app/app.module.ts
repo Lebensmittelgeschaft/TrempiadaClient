@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { Routes, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule,
          MatSidenavModule,
@@ -15,20 +16,27 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { RidesTableComponent } from './rides/rides-table/rides-table.component';
 import { FormsModule } from '@angular/forms';
-import { RideHttpService } from './rides/ride-http.service';
-import { RideService } from './rides/ride.service';
-import { CookieService } from './cookie.service';
+import { CookieService } from './cookie-service/cookie.service';
 import { AddRideDialogComponent } from './home-page/add-ride-dialog/add-ride-dialog.component';
+import { RidesTableComponent } from './home-page/rides-table/rides-table.component';
+import { RideHttpService } from './ride/ride-http-service/ride-http.service';
+import { RideService } from './home-page/rides-table/ride-service/ride.service';
+import { UserRidesPageComponent } from './user-rides-page/user-rides-page.component';
 
+const appRoutes: Routes = [
+  { path: '', component: HomePageComponent },
+  { path: 'user', component: UserRidesPageComponent },
+  { path: '**', redirectTo: '' }
+];
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     RidesTableComponent,
-    AddRideDialogComponent
+    AddRideDialogComponent,
+    UserRidesPageComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +54,7 @@ import { AddRideDialogComponent } from './home-page/add-ride-dialog/add-ride-dia
     MatInputModule,
     MatTooltipModule,
     MatDialogModule,
-    FormsModule
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [RideHttpService, RideService, CookieService],
   entryComponents: [AddRideDialogComponent],

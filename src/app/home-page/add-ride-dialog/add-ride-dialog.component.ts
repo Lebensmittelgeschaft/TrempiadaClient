@@ -1,13 +1,13 @@
 import { Component, OnInit, Inject, ViewChild, AfterViewInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Ride } from '../../rides/ride.model';
 import { Md2Datepicker } from 'md2';
 import { Subscription } from 'rxjs/Subscription';
 import { NgForm } from '@angular/forms';
-import { RideService } from '../../rides/ride.service';
-import { CookieService } from '../../cookie.service';
-import { User } from '../../users/user.model';
-import { RideHttpService } from '../../rides/ride-http.service';
+import { User } from '../../user/user.model';
+import { CookieService } from '../../cookie-service/cookie.service';
+import { Ride } from '../../ride/ride.model';
+import { RideService } from '../rides-table/ride-service/ride.service';
+import { RideHttpService } from '../../ride/ride-http-service/ride-http.service';
 
 @Component({
   selector: 'app-add-ride-dialog',
@@ -33,7 +33,7 @@ export class AddRideDialogComponent implements AfterViewInit {
       const dialogDatePicker = document.getElementById('cdk-overlay-0');
 
       // If the dialog's datepicker is not where it should be.
-      if (dialogDatePicker.firstChild === null) {
+      if (dialogDatePicker && dialogDatePicker.firstChild === null) {
         const cdkOverlayPanes = document.getElementsByClassName('cdk-overlay-container');
         let datePickerNode: Node = null;
         for (let i = 0; i < cdkOverlayPanes[0].childNodes.length && datePickerNode === null; i++) {
@@ -43,7 +43,9 @@ export class AddRideDialogComponent implements AfterViewInit {
           }
         }
 
-        cdkOverlayPanes[1].appendChild(datePickerNode);
+        if (datePickerNode !== null) {
+          cdkOverlayPanes[1].appendChild(datePickerNode);
+        }
       }
 
       this.updateDatepicker();

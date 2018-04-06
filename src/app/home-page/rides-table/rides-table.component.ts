@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, AfterContentChecked , Input } from '@angular/core';
 import {MatPaginator, MatTableDataSource, PageEvent, MatSort, MatInput} from '@angular/material';
-import { RideHttpService } from '../ride-http.service';
-import { Ride } from '../ride.model';
-import { RideService } from '../ride.service';
-import { RidesPaginatorIntl } from './rides-paginator-intl';
-import { User } from '../../users/user.model';
+import { RidesPaginatorIntl } from './ride-paginator-intl/rides-paginator-intl';
+import { User } from '../../user/user.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Md2DateChange, Md2Datepicker, DateLocale } from 'md2';
-import { CookieService } from '../../cookie.service';
-import { ICollection } from '../../collection.interface';
+import { CookieService } from '../../cookie-service/cookie.service';
+import { RideService } from './ride-service/ride.service';
+import { RideHttpService } from '../../ride/ride-http-service/ride-http.service';
+import { Ride } from '../../ride/ride.model';
 
 @Component({
   selector: 'app-rides-table',
@@ -20,7 +19,6 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy, Af
   displayedColumns = ['נהג', 'מקור', 'יעד', 'זמן יציאה', 'מקומות פנויים', ''];
   columnDefs = ['driver', 'from', 'to', 'departureDate', 'freeSpots', 'join'];
   private paginatorPageSubscription: Subscription;
-  private datePickerSubscription: Subscription;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -39,7 +37,6 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy, Af
 
   ngOnDestroy() {
     this.paginatorPageSubscription.unsubscribe();
-    this.datePickerSubscription.unsubscribe();
   }
   
   ngAfterViewInit() {
