@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-import 'rxjs/add/operator/map';
 import { Ride } from '../ride.model';
 import { ICollection } from '../../collection/collection.interface';
 
@@ -9,6 +8,11 @@ import { ICollection } from '../../collection/collection.interface';
 export class RideHttpService {
 
   constructor(private httpClient: HttpClient) { }
+
+  getRideById(id: string) {
+    return this.httpClient.get<Ride>(`http://localhost:3000/ride/${id}`,
+      { responseType: 'json', observe: 'body', withCredentials: true });
+  }
 
   getRides(page?: number, size?: number, search?: string, dateFilter?: Date) {
     let params: HttpParams = new HttpParams();

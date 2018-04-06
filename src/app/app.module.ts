@@ -13,6 +13,8 @@ import { Md2Module, NoConflictStyleCompatibilityMode } from 'md2';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -23,6 +25,9 @@ import { RidesTableComponent } from './home-page/rides-table/rides-table.compone
 import { RideHttpService } from './ride/ride-http-service/ride-http.service';
 import { RideService } from './home-page/rides-table/ride-service/ride.service';
 import { UserRidesPageComponent } from './user-rides-page/user-rides-page.component';
+import { UserHttpService } from './user/user-http-service/user-http.service';
+import { UserService } from './user-rides-page/user-service/user.service';
+import { UserRidesTableComponent } from './user-rides-page/user-rides-table/user-rides-table.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomePageComponent },
@@ -36,7 +41,8 @@ const appRoutes: Routes = [
     HomePageComponent,
     RidesTableComponent,
     AddRideDialogComponent,
-    UserRidesPageComponent
+    UserRidesPageComponent,
+    UserRidesTableComponent
   ],
   imports: [
     BrowserModule,
@@ -54,9 +60,11 @@ const appRoutes: Routes = [
     MatInputModule,
     MatTooltipModule,
     MatDialogModule,
+    MatExpansionModule,
+    MatListModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [RideHttpService, RideService, CookieService],
+  providers: [RideHttpService, RideService, CookieService, UserHttpService, UserService],
   entryComponents: [AddRideDialogComponent],
   bootstrap: [AppComponent]
 })

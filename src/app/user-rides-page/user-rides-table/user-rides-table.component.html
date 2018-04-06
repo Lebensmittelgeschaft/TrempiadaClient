@@ -1,0 +1,32 @@
+<mat-accordion class="mat-table">
+  <section matSort class="mat-elevation-z2 mat-header-row">
+    <span class="mat-header-cell" arrowPosition="before" [mat-sort-header]="columnDefs[0]">{{displayedColumns[0]}}</span>
+    <span class="mat-header-cell" arrowPosition="before" [mat-sort-header]="columnDefs[1]">{{displayedColumns[1]}}</span>
+    <span class="mat-header-cell" arrowPosition="before" [mat-sort-header]="columnDefs[2]">{{displayedColumns[2]}}</span>
+    <span class="mat-header-cell" arrowPosition="before" [mat-sort-header]="columnDefs[3]">{{displayedColumns[3]}}</span>
+    <span class="mat-header-cell" arrowPosition="before" [mat-sort-header]="columnDefs[4]">{{displayedColumns[4]}}</span>
+  </section>
+
+  <mat-expansion-panel *ngFor="let ride of userService.dataSource.data" (opened)="getRideDetails(ride)">
+    <mat-expansion-panel-header class="mat-row">
+      <span class="mat-cell">{{ride.driver.firstname + ' ' + ride.driver.lastname}}</span>
+      <span class="mat-cell">{{ride.from}}</span>
+      <span class="mat-cell">{{ride.to}}</span>
+      <span class="mat-cell">{{ride.departureDate | date:'HH:mm ,dd/MM/y'}}</span>
+      <span class="mat-cell">{{ride.maxRiders - ride.riders.length}}</span>
+    </mat-expansion-panel-header>
+    <div *ngIf="userService.currentRide">
+      <mat-list>
+        <mat-list-item *ngFor="let rider of userService.currentRide.riders">
+          {{rider.rider.firstname + ' ' + rider.rider.lastname}} הצטרף ב {{rider.joinDate | date:'HH:mm ,dd/MM/y'}}
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<mat-paginator #paginator
+  [pageIndex]="0"
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 20]">
+</mat-paginator>

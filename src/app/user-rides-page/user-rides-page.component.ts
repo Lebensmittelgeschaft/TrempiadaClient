@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from './user-service/user.service';
 
 @Component({
   selector: 'app-user-rides-page',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-rides-page.component.scss']
 })
 export class UserRidesPageComponent implements OnInit {
-
-  constructor() { }
+  
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.userService.getRides();
   }
 
 }

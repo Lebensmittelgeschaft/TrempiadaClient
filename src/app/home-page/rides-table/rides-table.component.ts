@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, AfterContentChecked , Input } from '@angular/core';
 import {MatPaginator, MatTableDataSource, PageEvent, MatSort, MatInput} from '@angular/material';
-import { RidesPaginatorIntl } from './ride-paginator-intl/rides-paginator-intl';
 import { User } from '../../user/user.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Md2DateChange, Md2Datepicker, DateLocale } from 'md2';
@@ -8,6 +7,7 @@ import { CookieService } from '../../cookie-service/cookie.service';
 import { RideService } from './ride-service/ride.service';
 import { RideHttpService } from '../../ride/ride-http-service/ride-http.service';
 import { Ride } from '../../ride/ride.model';
+import { HebrewPaginatorIntl } from '../../hebrew-paginator-intl/hebrew-paginator-intl';
 
 @Component({
   selector: 'app-rides-table',
@@ -40,12 +40,7 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy, Af
   }
   
   ngAfterViewInit() {
-    this.paginator._intl = new RidesPaginatorIntl();
-    this.paginator._intl.firstPageLabel = 'עמוד ראשון';
-    this.paginator._intl.itemsPerPageLabel = 'גודל עמוד';
-    this.paginator._intl.lastPageLabel = 'עמוד אחרון';
-    this.paginator._intl.nextPageLabel = 'עמוד הבא';
-    this.paginator._intl.previousPageLabel = 'עמוד קודם';
+    this.paginator._intl = new HebrewPaginatorIntl();
     this.rideService.dataSource.sortingDataAccessor = (ride: Ride, sortHeaderId: string): string | number => {
       let data: string | number = '';
       switch (sortHeaderId) {
@@ -76,6 +71,7 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy, Af
 
         default: {
 
+          break;
         }
       }
 
