@@ -30,6 +30,22 @@ export class AddRideDialogComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.datePickerSubscription = this.datePicker.onOpen.subscribe(() => {
+      const dialogDatePicker = document.getElementById('cdk-overlay-0');
+
+      // If the dialog's datepicker is not where it should be.
+      if (dialogDatePicker.firstChild === null) {
+        const cdkOverlayPanes = document.getElementsByClassName('cdk-overlay-container');
+        let datePickerNode: Node = null;
+        for (let i = 0; i < cdkOverlayPanes[0].childNodes.length && datePickerNode === null; i++) {
+          const currNode = cdkOverlayPanes[0].childNodes.item(i);
+          if (currNode.firstChild && currNode.firstChild.localName === 'md2-datepicker-content') {
+            datePickerNode = currNode;
+          }
+        }
+
+        cdkOverlayPanes[1].appendChild(datePickerNode);
+      }
+
       this.updateDatepicker();
     });
   }
