@@ -35,6 +35,7 @@ export class RideHttpService {
   }
 
   createRide(ride: Ride) {
+    ride.departureDate.setUTCSeconds(0);
     return this.httpClient.post<Ride>('http://localhost:3000/ride', ride, { withCredentials: true });
   }
 

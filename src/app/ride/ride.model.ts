@@ -1,4 +1,5 @@
-import { User } from '../users/user.model';
+import { User } from '../user/user.model';
+
 
 export class Ride {
     public constructor(public _id: string,

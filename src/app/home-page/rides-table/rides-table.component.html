@@ -25,7 +25,7 @@
     <!-- Departure Column -->
     <ng-container matColumnDef="{{ columnDefs[3] }}">
       <mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">{{ displayedColumns[3] }}</mat-header-cell>
-      <mat-cell *matCellDef="let ride">{{ ride.departureDate | date:'HH:mm ,dd/MM/y':'+300' }}</mat-cell>
+      <mat-cell *matCellDef="let ride">{{ ride.departureDate | date:'HH:mm ,dd/MM/y' }}</mat-cell>
     </ng-container>
 
     <!-- Free spots Column -->

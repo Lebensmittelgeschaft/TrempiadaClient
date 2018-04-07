@@ -16,7 +16,7 @@ import { HebrewPaginatorIntl } from '../../hebrew-paginator-intl/hebrew-paginato
 })
 export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy, AfterContentChecked {
 
-  displayedColumns = ['נהג', 'מקור', 'יעד', 'זמן יציאה', 'מקומות פנויים', ''];
+  displayedColumns = ['נהג', 'מקור', 'יעד', 'זמן יציאה', 'מושבים פנויים', ''];
   columnDefs = ['driver', 'from', 'to', 'departureDate', 'freeSpots', 'join'];
   private paginatorPageSubscription: Subscription;
 

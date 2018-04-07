@@ -6,11 +6,12 @@ div[mat-dialog-content] {
 }
 
 div.form-container {
-    display: inline-flex;
+    display: flex;
+    justify-content: center;
 }
 
 mat-form-field.ride-input {
-    margin: 1em 5em;
+    margin: 0em 4em;
 }
 
 button.date-reset {

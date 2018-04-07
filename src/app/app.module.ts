@@ -15,6 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -62,6 +63,7 @@ const appRoutes: Routes = [
     MatDialogModule,
     MatExpansionModule,
     MatListModule,
+    MatButtonToggleModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [RideHttpService, RideService, CookieService, UserHttpService, UserService],

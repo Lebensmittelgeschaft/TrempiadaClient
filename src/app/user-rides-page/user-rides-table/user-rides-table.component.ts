@@ -8,6 +8,8 @@ import { UserService } from '../user-service/user.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Ride } from '../../ride/ride.model';
 import { User } from '../../user/user.model';
+import { NgForm } from '@angular/forms';
+import { CookieService } from '../../cookie-service/cookie.service';
 
 @Component({
   selector: 'app-user-rides-table',
@@ -16,14 +18,15 @@ import { User } from '../../user/user.model';
 })
 export class UserRidesTableComponent implements OnInit, AfterViewInit, OnDestroy, AfterContentChecked {
 
-  displayedColumns = ['נהג', 'מקור', 'יעד', 'זמן יציאה', 'מקומות פנויים', ''];
-  columnDefs = ['driver', 'from', 'to', 'departureDate', 'freeSpots', 'join'];
+  displayedColumns = ['נהג', 'מקור', 'יעד', 'זמן יציאה', 'מושבים פנויים'];
+  columnDefs = ['driver', 'from', 'to', 'departureDate', 'freeSpots'];
   private paginatorPageSubscription: Subscription;
+  private editRideMode = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private cookieService: CookieService) { }
 
   ngOnInit() {
     this.paginatorPageSubscription = this.paginator.page.subscribe((pageEvent: PageEvent) => {
@@ -93,5 +96,46 @@ export class UserRidesTableComponent implements OnInit, AfterViewInit, OnDestroy
   getUserRides() {
     this.userService.getUserRides();
     this.paginator.length = this.userService.paginatorLength;
+  }
+
+  canEditRide(rideDriver: string) {
+    // const userid = this.cookieService.getCookie('sid');
+    const userid = (<User>this.userService.currentRide.driver)._id;
+    return rideDriver === userid;
+  }
+
+  editRide(form: NgForm) {
+    this.editRideMode = !this.editRideMode;
+    if (this.editRideMode) {
+      form.controls.from.enable();
+      form.controls.to.enable();
+      form.controls.maxRiders.enable();
+      form.controls.departureDate.enable();
+    } else {
+      form.controls.from.disable();
+      form.controls.to.disable();
+      form.controls.maxRiders.disable();
+      form.controls.departureDate.disable();
+    }
+  }
+
+  canSubmitRide(form: NgForm) {
+    const ride = <Ride>{
+      departureDate: form.value.departureDate,
+      from: form.value.from,
+      to: form.value.to
+    };
+
+    return (form.valid &&
+            form.value.departureDate !== undefined &&
+            this.canUpdateRide(ride));
+  }
+
+  canUpdateRide(ride: Ride) {
+    const userid = this.cookieService.getCookie('sid');
+    ride.departureDate.setUTCSeconds(0);
+
+    return (ride.departureDate.getTime() > Date.now() &&
+            ride.from !== ride.to);
   }
 }

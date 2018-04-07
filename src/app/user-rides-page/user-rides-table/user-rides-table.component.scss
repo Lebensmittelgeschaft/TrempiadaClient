@@ -53,4 +53,35 @@ mat-expansion-panel-header {
     word-wrap: break-word;
 }
   
-  
+
+.ride-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    & label {
+        text-decoration: underline;
+    }
+}
+
+mat-list {
+    margin: 0 2em;
+}
+
+div.form-container {
+    display: flex;
+}
+
+mat-form-field.ride-input {
+    margin: 0em 4em;
+    text-align: right;
+}
+
+button.date-reset {
+    display: block;
+    margin-top: 1em;
+}
+
+button.submit-button {
+    margin: 1em 2em;
+}
