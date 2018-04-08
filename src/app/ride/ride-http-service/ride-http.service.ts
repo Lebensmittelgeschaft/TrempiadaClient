@@ -41,4 +41,17 @@ export class RideHttpService {
   joinRide(ride: string, user: string) {
     return this.httpClient.put<Ride>(`http://localhost:3000/ride/${ride}/join`, { user }, { withCredentials: true });
   }
+
+  updateRide(ride: Ride) {
+    ride.departureDate.setUTCSeconds(0);
+    return this.httpClient.put<Ride>(`http://localhost:3000/ride/${ride._id}`, ride, { withCredentials: true });
+  }
+
+  cancelRide(id: string) {
+    return this.httpClient.put<Ride>(`http://localhost:3000/ride/${id}/cancel`, {}, { withCredentials: true });
+  }
+
+  leaveRide(rideid: string, userid: string) {
+    return this.httpClient.put<Ride>(`http://localhost:3000/ride/${rideid}/leave`, { user: userid }, { withCredentials: true });
+  }
 }

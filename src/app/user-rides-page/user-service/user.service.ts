@@ -16,7 +16,6 @@ export class UserService {
   constructor(private userHttpService: UserHttpService, private rideHttpService: RideHttpService, private cookieService: CookieService) { }
 
   getRideById(id: string) {
-    id = `5ab9fab87975c413c0b002af`;
     const sub = this.rideHttpService.getRideById(id).subscribe((data) => {
       data.departureDate = new Date(data.departureDate);
       data.creationDate = new Date(data.creationDate);
@@ -41,6 +40,37 @@ export class UserService {
       this.paginatorLength = data.totalCount;
 
       sub.unsubscribe();
+    });
+  }
+
+  updateRide(ride: Ride) {
+    this.rideHttpService.updateRide(ride).subscribe((ride) => {
+      this.currentRide = ride;
+      const tempData = this.dataSource.data;
+      for (let i = 0; i < tempData.length; i++) {
+        if (tempData[i]._id === ride._id) {
+          tempData[i] = ride;
+
+          break;
+        }
+      }
+
+      this.dataSource.data = tempData;
+    });
+  }
+
+  cancelRide(id: string) {
+    this.rideHttpService.cancelRide(id).subscribe(() => {
+      this.currentRide = null;
+      this.getUserRides();
+    });
+  }
+
+  leaveRide(id: string) {
+    const userid = this.cookieService.getCookie('sid');
+    this.rideHttpService.leaveRide(id, userid).subscribe((ride) => {
+      this.currentRide = null;
+      this.getUserRides();
     });
   }
 }

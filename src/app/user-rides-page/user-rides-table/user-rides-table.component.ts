@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, AfterContentChecked } from '@angular/core';
-import { MatSort, MatPaginator, Sort, PageEvent } from '@angular/material';
+import { MatSort, MatPaginator, Sort, PageEvent, MatExpansionPanel } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { map } from 'rxjs/operators';
@@ -83,8 +83,14 @@ export class UserRidesTableComponent implements OnInit, AfterViewInit, OnDestroy
     this.userService.dataSource.sort = this.sort;
   }
 
+  resetPanel(panel: MatExpansionPanel) {
+    panel.close();
+    this.editRideMode = false;
+  }
+
   getRideDetails(ride: Ride) {
     if (!this.userService.currentRide || ride._id !== this.userService.currentRide._id) {
+      this.userService.currentRide = null;
       this.userService.getRideById(ride._id);
     }
   }
@@ -98,9 +104,8 @@ export class UserRidesTableComponent implements OnInit, AfterViewInit, OnDestroy
     this.paginator.length = this.userService.paginatorLength;
   }
 
-  canEditRide(rideDriver: string) {
-    // const userid = this.cookieService.getCookie('sid');
-    const userid = (<User>this.userService.currentRide.driver)._id;
+  isRideDriver(rideDriver: string) {
+    const userid = this.cookieService.getCookie('sid');
     return rideDriver === userid;
   }
 
@@ -121,7 +126,7 @@ export class UserRidesTableComponent implements OnInit, AfterViewInit, OnDestroy
 
   canSubmitRide(form: NgForm) {
     const ride = <Ride>{
-      departureDate: form.value.departureDate,
+      departureDate: new Date(form.value.departureDate),
       from: form.value.from,
       to: form.value.to
     };
@@ -137,5 +142,37 @@ export class UserRidesTableComponent implements OnInit, AfterViewInit, OnDestroy
 
     return (ride.departureDate.getTime() > Date.now() &&
             ride.from !== ride.to);
+  }
+
+  submitRideEdit(form: NgForm) {
+    const ride = <Ride>{
+      _id: this.userService.currentRide._id,
+      departureDate: new Date(form.value.departureDate),
+      from: form.value.from,
+      to: form.value.to,
+      maxRiders: +form.value.maxRiders
+    };
+
+    if (this.editRideMode) {
+      if (this.canSubmitRide(form)) {
+        this.userService.updateRide(ride);
+        this.editRide(form);
+      }
+    } else {
+      console.log(this.isRideDriver((<User>this.userService.currentRide.driver)._id));
+      if (this.isRideDriver((<User>this.userService.currentRide.driver)._id)) {
+        this.cancelRide(this.userService.currentRide._id);
+      } else {
+        this.leaveRide(this.userService.currentRide._id);
+      }
+    }
+  }
+
+  cancelRide(id: string) {
+    this.userService.cancelRide(id);
+  }
+  
+  leaveRide(id: string) {
+    this.userService.leaveRide(id);
   }
 }

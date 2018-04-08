@@ -7,7 +7,7 @@
     <span class="mat-header-cell" arrowPosition="before" [mat-sort-header]="columnDefs[4]">{{displayedColumns[4]}}</span>
   </section>
 
-  <mat-expansion-panel *ngFor="let ride of userService.dataSource.data" (opened)="getRideDetails(ride)">
+  <mat-expansion-panel *ngFor="let ride of userService.dataSource.data" (opened)="getRideDetails(ride)" (closed)="resetPanel(panel)" #panel>
     <mat-expansion-panel-header class="mat-row">
       <span class="mat-cell">{{ride.driver.firstname + ' ' + ride.driver.lastname}}</span>
       <span class="mat-cell">{{ride.from}}</span>
@@ -16,7 +16,7 @@
       <span class="mat-cell">{{ride.maxRiders - ride.riders.length}}</span>
     </mat-expansion-panel-header>
     <div class="ride-details" *ngIf="userService.currentRide">
-      <form (ngSubmit)="addRide(f)" #f="ngForm">
+      <form (ngSubmit)="submitRideEdit(f)" #f="ngForm">
           <div class="form-container">
             <mat-form-field class="ride-input">
                 <input matInput
@@ -51,12 +51,28 @@
             disabled>
             </md2-datepicker>
             <button class="date-reset" *ngIf="userService.currentRide.departureDate && editRideMode"
-            (click)="userService.currentRide.departureDate = null" mat-icon-button>
+            (click)="userService.currentRide.departureDate=null" mat-icon-button>
                 <img style="width: 16px; height: 16px;" src="../../../assets/ic_clear_black_24px.svg">
             </button>
         </div>
-        <mat-button-toggle *ngIf="canEditRide(userService.currentRide.driver._id)" (click)="editRide(f)">ערוך נסיעה</mat-button-toggle>
-        <button mat-raised-button color="primary" class="submit-button" mat-dialog-actions [disabled]="!canSubmitRide(f)" type="submit">שלח</button>
+        <div *ngIf="!editRideMode">
+          <div *ngIf="isRideDriver(userService.currentRide.driver._id)">
+            <button mat-raised-button 
+            color="primary" class="submit-button" (click)="editRide(f)">ערוך נסיעה</button>
+            <button mat-raised-button type="submit"
+            color="warn" class="submit-button">בטל נסיעה</button>
+          </div>
+          <div *ngIf="!isRideDriver(userService.currentRide.driver._id)">
+              <button mat-raised-button type="submit"
+              color="warn" class="submit-button">עזוב נסיעה</button>
+          </div>
+        </div>
+        <div *ngIf="editRideMode">
+          <button mat-raised-button color="primary"
+          class="submit-button" (click)="editRide(f)">ביטול</button>
+          <button mat-raised-button color="primary"
+          class="submit-button" mat-dialog-actions [disabled]="!canSubmitRide(f)" type="submit">שלח</button>
+        </div>
       </form>
     </div>
   </mat-expansion-panel>
