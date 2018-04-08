@@ -10,7 +10,6 @@ export class NotificationService {
 
   getUserNotifications(id: string) {
     const sub = this.notificationHttpService.getUserNotifications(id).subscribe((notifications) => {
-      console.log(notifications);
       this.notifications = notifications;
 
       sub.unsubscribe();

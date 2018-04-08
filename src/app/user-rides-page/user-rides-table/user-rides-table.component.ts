@@ -111,6 +111,10 @@ export class UserRidesTableComponent implements OnInit, AfterViewInit, OnDestroy
 
   editRide(form: NgForm) {
     this.editRideMode = !this.editRideMode;
+    form.controls.from.setValue(this.userService.currentRide.from);
+    form.controls.to.setValue(this.userService.currentRide.to);
+    form.controls.maxRiders.setValue(this.userService.currentRide.maxRiders);
+    form.controls.departureDate.setValue(this.userService.currentRide.departureDate);
     if (this.editRideMode) {
       form.controls.from.enable();
       form.controls.to.enable();
@@ -128,7 +132,8 @@ export class UserRidesTableComponent implements OnInit, AfterViewInit, OnDestroy
     const ride = <Ride>{
       departureDate: new Date(form.value.departureDate),
       from: form.value.from,
-      to: form.value.to
+      to: form.value.to,
+      maxRiders: form.value.maxRiders
     };
 
     return (form.valid &&
@@ -141,7 +146,8 @@ export class UserRidesTableComponent implements OnInit, AfterViewInit, OnDestroy
     ride.departureDate.setUTCSeconds(0);
 
     return (ride.departureDate.getTime() > Date.now() &&
-            ride.from !== ride.to);
+            ride.from !== ride.to &&
+            this.userService.currentRide.riders.length <= ride.maxRiders);
   }
 
   submitRideEdit(form: NgForm) {
