@@ -53,6 +53,7 @@ export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
   onSearch() {
     this.rideService.search = this.search;
     this.rideService.datePick = this.datePicker.value;
+    console.log(this.datePicker.value);
     this.rideService.getRides();
   }
 
