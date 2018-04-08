@@ -29,6 +29,8 @@ import { UserRidesPageComponent } from './user-rides-page/user-rides-page.compon
 import { UserHttpService } from './user/user-http-service/user-http.service';
 import { UserService } from './user-rides-page/user-service/user.service';
 import { UserRidesTableComponent } from './user-rides-page/user-rides-table/user-rides-table.component';
+import { NotificationHttpService } from './notification/notification-http-service/notification-http.service';
+import { NotificationService } from './notification-service/notification.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomePageComponent },
@@ -66,7 +68,15 @@ const appRoutes: Routes = [
     MatButtonToggleModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [RideHttpService, RideService, CookieService, UserHttpService, UserService],
+  providers: [
+    RideHttpService,
+    RideService,
+    CookieService,
+    UserHttpService,
+    UserService,
+    NotificationService,
+    NotificationHttpService
+  ],
   entryComponents: [AddRideDialogComponent],
   bootstrap: [AppComponent]
 })

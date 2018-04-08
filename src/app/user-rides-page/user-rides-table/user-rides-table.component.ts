@@ -158,14 +158,11 @@ export class UserRidesTableComponent implements OnInit, AfterViewInit, OnDestroy
         this.userService.updateRide(ride);
         this.editRide(form);
       }
-    } else {
-      console.log(this.isRideDriver((<User>this.userService.currentRide.driver)._id));
-      if (this.isRideDriver((<User>this.userService.currentRide.driver)._id)) {
+    } else if (this.isRideDriver((<User>this.userService.currentRide.driver)._id)) {
         this.cancelRide(this.userService.currentRide._id);
       } else {
         this.leaveRide(this.userService.currentRide._id);
       }
-    }
   }
 
   cancelRide(id: string) {

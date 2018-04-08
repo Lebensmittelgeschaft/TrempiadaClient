@@ -6,6 +6,7 @@ import { AddRideDialogComponent } from './add-ride-dialog/add-ride-dialog.compon
 import { RideHttpService } from '../ride/ride-http-service/ride-http.service';
 import { RideService } from './rides-table/ride-service/ride.service';
 import { Ride } from '../ride/ride.model';
+import { CookieService } from '../cookie-service/cookie.service';
 
 @Component({
   selector: 'app-home-page',

@@ -2,5 +2,11 @@
 <mat-toolbar class="mat-elevation-z4" color="primary">
     <a id="title" class="toolbar-link" routerLink="/">טרמפיאדה</a>
     <a mat-button class="toolbar-link" routerLink="/user">הנסיעות שלי</a>
+    <div class="notifications-badge">
+        <button mat-icon-button (click)="clearCount()">
+            <mat-icon class="material-icons">notifications</mat-icon>
+            <span class="badge" *ngIf="notificationService.notifications.length > 0">{{notificationService.notifications.length}}</span>
+        </button>
+    </div>
 </mat-toolbar>
 <router-outlet></router-outlet>
