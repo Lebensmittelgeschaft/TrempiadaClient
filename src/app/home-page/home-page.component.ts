@@ -40,9 +40,9 @@ export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openDialog() {
     const dialogRef = this.dialog.open<AddRideDialogComponent, Ride>(AddRideDialogComponent, {
-      width: '80%',
       autoFocus: false,
       closeOnNavigation: true,
+      minWidth: '80%',
       direction: 'rtl'
     });
 
