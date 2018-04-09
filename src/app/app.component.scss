@@ -50,3 +50,24 @@
     color: #ffffff;
     text-align: center;
 }
+
+.notification-cards {
+    position: fixed;
+    left: 1em;
+    top: 3.5em;
+    max-width: 400px;
+    max-height: 50%;
+    overflow-y: auto;
+}
+
+.hidden-notifications-card {
+    display: none;
+}
+
+.notification-card {
+    margin: 1em 0;
+}
+
+.clear-all-card-action {
+    padding: 0;
+}

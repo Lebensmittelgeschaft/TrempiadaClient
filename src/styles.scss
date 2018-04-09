@@ -59,6 +59,7 @@ span.md2-datepicker-placeholder {
 }
 
 span.md2-datepicker-placeholder.md2-floating-placeholder {
+    transform-origin: inherit;
     text-align: right;
     transform: translateY(-0.3em) translateX(4em) scale(0.75) translateZ(0.001px);
 }

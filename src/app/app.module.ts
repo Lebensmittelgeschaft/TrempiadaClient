@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -66,6 +67,7 @@ const appRoutes: Routes = [
     MatExpansionModule,
     MatListModule,
     MatButtonToggleModule,
+    MatCardModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

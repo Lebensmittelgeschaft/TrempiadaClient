@@ -15,4 +15,18 @@ export class NotificationService {
       sub.unsubscribe();
     });
   }
+
+  markAsRead(id: string) {
+    const sub = this.notificationHttpService.markAsRead(id).subscribe((notification) => {
+      for (let i = 0; i < this.notifications.length; i++) {
+        if (this.notifications[i]._id === notification._id) {
+          this.notifications.splice(i, 1);
+
+          break;
+        }
+      }
+
+      sub.unsubscribe();
+    });
+  }
 }

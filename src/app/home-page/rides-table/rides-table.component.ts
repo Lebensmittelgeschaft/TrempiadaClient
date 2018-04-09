@@ -79,7 +79,6 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy, Af
     };
     
     this.rideService.dataSource.sort = this.sort;
-    // this.dataSource.paginator = this.paginator;
   }
 
   ngAfterContentChecked() {
