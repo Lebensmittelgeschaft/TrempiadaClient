@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, AfterContentChecked , Input } from '@angular/core';
-import {MatPaginator, MatTableDataSource, PageEvent, MatSort, MatInput} from '@angular/material';
+import {MatPaginator, MatTableDataSource, PageEvent, MatSort, MatInput, MatSnackBar} from '@angular/material';
 import { User } from '../../user/user.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Md2DateChange, Md2Datepicker, DateLocale } from 'md2';
@@ -25,7 +25,8 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy, Af
 
   constructor(private rideService: RideService,
               private rideHttpService: RideHttpService,
-              private cookieService: CookieService) {}
+              private cookieService: CookieService,
+              private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.paginatorPageSubscription = this.paginator.page.subscribe((pageEvent: PageEvent) => {
@@ -108,10 +109,20 @@ export class RidesTableComponent implements OnInit, AfterViewInit, OnDestroy, Af
             tempDataSource[i] = newRide;
             this.rideService.dataSource.data = tempDataSource;
             this.paginator._changePageSize(this.paginator.pageSize);
+            this.snackBar.open('הצטרפות לנסיעה הצליחה', undefined, {
+              duration: 1500,
+              direction: 'rtl'
+            });
 
             break;
           }
         }
+      },
+      (err) => {
+        this.snackBar.open('הצטרפות לנסיעה נכשלה', undefined, {
+          duration: 1500,
+          direction: 'rtl'
+        });
       });
     }
   }

@@ -55,7 +55,7 @@
                 <img style="width: 16px; height: 16px;" src="../../../assets/ic_clear_black_24px.svg">
             </button>
         </div>
-        <div *ngIf="!editRideMode">
+        <div class="submit-buttons" *ngIf="!editRideMode">
           <div *ngIf="isRideDriver(userService.currentRide.driver._id)">
             <button mat-raised-button 
             color="primary" class="submit-button" (click)="editRide(f)">ערוך נסיעה</button>
@@ -67,7 +67,7 @@
               color="warn" class="submit-button">עזוב נסיעה</button>
           </div>
         </div>
-        <div *ngIf="editRideMode">
+        <div class="submit-buttons" *ngIf="editRideMode">
           <button mat-raised-button color="primary"
           class="submit-button" (click)="editRide(f)">ביטול</button>
           <button mat-raised-button color="primary"

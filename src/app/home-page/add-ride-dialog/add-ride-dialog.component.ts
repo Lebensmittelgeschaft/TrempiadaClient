@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild, AfterViewInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
 import { Md2Datepicker } from 'md2';
 import { Subscription } from 'rxjs/Subscription';
 import { NgForm } from '@angular/forms';
@@ -22,7 +22,8 @@ export class AddRideDialogComponent implements AfterViewInit {
               @Inject(MAT_DIALOG_DATA) public data: Ride,
               private rideService: RideService,
               private rideHttpService: RideHttpService,
-              private cookieService: CookieService) { }
+              private cookieService: CookieService,
+              private snackBar: MatSnackBar) { }
 
   onNoClick() {
     this.dialogRef.close();
@@ -99,7 +100,17 @@ export class AddRideDialogComponent implements AfterViewInit {
       // TODO: Change to get driver id from session and not the client.
       rideInfo.driver = userid;
       this.rideHttpService.createRide(rideInfo).subscribe((ride) => {
+        this.snackBar.open('נסיעה נוספה בהצלחה', undefined, {
+          duration: 1500,
+          direction: 'rtl'
+        });
         this.dialogRef.close(ride);
+      },
+      (err) => {
+        this.snackBar.open('הוספת הנסיעה נכשלה', undefined, {
+          duration: 1500,
+          direction: 'rtl'
+        });
       });
     }
   }

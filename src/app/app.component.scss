@@ -56,7 +56,7 @@
     left: 1em;
     top: 3.5em;
     max-width: 400px;
-    max-height: 50%;
+    max-height: 55%;
     overflow-y: auto;
 }
 
@@ -70,4 +70,8 @@
 
 .clear-all-card-action {
     padding: 0;
+}
+
+.notifications-card-subtitle {
+    margin-right: 2em;
 }
